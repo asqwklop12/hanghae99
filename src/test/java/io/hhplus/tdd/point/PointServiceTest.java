@@ -37,7 +37,7 @@ class PointServiceTest {
 
   @Test
   public void _포인트_충전() {
-    //given
+    //when
     UserPoint point = pointService.charge(1L, 1000L);
     //then
     assertThat(point.id()).isEqualTo(1L);
@@ -46,7 +46,7 @@ class PointServiceTest {
 
   @Test
   public void _포인트_충전을_안했을_경우_히스토리_조회() {
-    //given
+    //when
     List<PointHistory> history = pointService.history(1L);
     //then
     assertThat(history).isEmpty();
@@ -54,9 +54,9 @@ class PointServiceTest {
 
   @Test
   public void _포인트_충전을_했을_경우_히스토리_조회() {
-    //when
-    UserPoint point = pointService.charge(1L, 1000L);
     //given
+    UserPoint point = pointService.charge(1L, 1000L);
+    //when
     List<PointHistory> history = pointService.history(point.id());
     //then
     assertThat(history).isNotEmpty();
