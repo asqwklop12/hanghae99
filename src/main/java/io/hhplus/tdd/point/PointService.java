@@ -32,13 +32,10 @@ public class PointService {
   }
 
   private static void validate(long amount) {
-    if (amount <= 0) {
-      throw new IllegalArgumentException("0이하로 포인트를 충전할 수 없습니다.");
+    if (amount <= 0 || amount >= 2000) {
+      throw new IllegalArgumentException("포인트는 0보다 크거나 2000미만으로 충전할 수 있습니다.");
     }
 
-    if(amount >= 2000) {
-      throw new IllegalArgumentException("포인트는 한번에 2000포인트 이상으로 충전이 불가합니다.");
-    }
   }
 
   public UserPoint use(long id, long amount) {
