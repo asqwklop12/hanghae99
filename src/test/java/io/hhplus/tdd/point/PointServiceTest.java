@@ -62,4 +62,14 @@ class PointServiceTest {
     assertThat(history).isNotEmpty();
   }
 
+  @Test
+  public void _포인트_사용() {
+    //given
+    pointService.charge(1L, 1000L);
+    //when
+    UserPoint point = pointService.use(1L, 200L);
+    //then
+    assertThat(point.point()).isEqualTo(800L);
+  }
+
 }
