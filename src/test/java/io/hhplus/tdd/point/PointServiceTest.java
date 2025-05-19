@@ -72,4 +72,16 @@ class PointServiceTest {
     assertThat(point.point()).isEqualTo(800L);
   }
 
+  @Test
+  public void _포인트_사용_히스토리확인() {
+    //given
+    pointService.charge(1L, 1000L);
+    UserPoint point = pointService.use(1L, 200L);
+    //when
+    List<PointHistory> history = pointService.history(point.id());
+    //then
+    assertThat(history.get(1).type()).isEqualTo(TransactionType.USE);
+  }
+
+
 }
