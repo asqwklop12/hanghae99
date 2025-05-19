@@ -26,6 +26,9 @@ public class PointService {
 
   public UserPoint charge(long id, long amount) {
     UserPoint userPoint = userPointTable.insertOrUpdate(id, amount);
+    if(userPoint.point() <= 0) {
+      throw new IllegalArgumentException("0이하로 포인트를 충전할 수 없습니다.");
+    }
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
   }
