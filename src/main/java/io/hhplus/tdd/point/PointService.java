@@ -25,7 +25,9 @@ public class PointService {
   }
 
   public UserPoint charge(long id, long amount) {
-    return userPointTable.insertOrUpdate(id, amount);
+    UserPoint userPoint = userPointTable.insertOrUpdate(id, amount);
+    pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
+    return userPoint;
   }
 
   public UserPoint use(long id, long amount) {
