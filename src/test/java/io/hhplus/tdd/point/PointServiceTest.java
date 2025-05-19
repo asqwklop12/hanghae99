@@ -89,4 +89,10 @@ class PointServiceTest {
     assertThatThrownBy(() -> pointService.charge(1L, -20L)).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @Test
+  public void _한번에_2000포인트이상_충전할수없다() {
+    assertThatThrownBy(() -> pointService.charge(1L, 2000L)).isInstanceOf(IllegalArgumentException.class);
+  }
+
+
 }
