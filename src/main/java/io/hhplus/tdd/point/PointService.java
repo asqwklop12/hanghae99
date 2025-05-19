@@ -17,7 +17,7 @@ public class PointService {
   }
 
   public UserPoint point(long id) {
-    return new UserPoint(0, 0, 0);
+    return userPointTable.selectById(id);
   }
 
   public List<PointHistory> history(long id) {
