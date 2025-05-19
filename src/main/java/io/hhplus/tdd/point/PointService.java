@@ -25,7 +25,7 @@ public class PointService {
   }
 
   public UserPoint charge(long id, long amount) {
-    return new UserPoint(0, 0, 0);
+    return userPointTable.insertOrUpdate(id, amount);
   }
 
   public UserPoint use(long id, long amount) {
