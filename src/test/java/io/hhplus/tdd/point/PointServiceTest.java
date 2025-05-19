@@ -1,6 +1,7 @@
 package io.hhplus.tdd.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -83,5 +84,9 @@ class PointServiceTest {
     assertThat(history.get(1).type()).isEqualTo(TransactionType.USE);
   }
 
+  @Test
+  public void _포인트는_0이하로_충전할수없다() {
+    assertThatThrownBy(() -> pointService.charge(1L, -20L)).isInstanceOf(IllegalArgumentException.class);
+  }
 
 }
