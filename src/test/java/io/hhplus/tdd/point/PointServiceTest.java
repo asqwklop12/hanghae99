@@ -52,4 +52,14 @@ class PointServiceTest {
     assertThat(history).isEmpty();
   }
 
+  @Test
+  public void _포인트_충전을_했을_경우_히스토리_조회() {
+    //when
+    UserPoint point = pointService.charge(1L, 1000L);
+    //given
+    List<PointHistory> history = pointService.history(point.id());
+    //then
+    assertThat(history).isNotEmpty();
+  }
+
 }
