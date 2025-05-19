@@ -33,4 +33,14 @@ class PointServiceTest {
     //then
     assertThat(point.id()).isEqualTo(1L);
   }
+
+  @Test
+  public void _포인트_충전() {
+    //given
+    UserPoint point = pointService.charge(1L, 1000L);
+    //then
+    assertThat(point.id()).isEqualTo(1L);
+    assertThat(point.point()).isEqualTo(1000L);
+  }
+
 }
