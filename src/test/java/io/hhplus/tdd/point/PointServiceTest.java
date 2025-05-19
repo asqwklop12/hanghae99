@@ -2,6 +2,7 @@ package io.hhplus.tdd.point;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import io.hhplus.tdd.database.PointHistoryTable;
@@ -18,8 +19,8 @@ class PointServiceTest {
   @BeforeEach
   void init() {
     //given
-    userPoint = mock(UserPointTable.class);
-    pointHistory = mock(PointHistoryTable.class);
+    userPoint = spy(UserPointTable.class);
+    pointHistory = spy(PointHistoryTable.class);
     pointService = new PointService(userPoint, pointHistory);
   }
 
