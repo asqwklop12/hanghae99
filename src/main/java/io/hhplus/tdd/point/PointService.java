@@ -29,6 +29,7 @@ public class PointService {
     //기존 포인트 가져온다.
     UserPoint currentUserPoint = userPointTable.selectById(id);
     UserPoint userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point() + amount);
+    userPoint.validate();
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
   }
