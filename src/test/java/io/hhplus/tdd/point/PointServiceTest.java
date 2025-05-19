@@ -95,6 +95,17 @@ class PointServiceTest {
   }
 
   @Test
+  public void _포인트_2회충전() {
+    //given
+    pointService.charge(1L, 500L);
+    pointService.charge(1L, 500L);
+    //when
+    UserPoint point = pointService.point(1L);
+    //then
+    assertThat(point.point()).isEqualTo(1000L);
+  }
+
+  @Test
   public void _포인트는_최대_10000포인트까지충전이_가능합니다() {
     //given
     userPoint.insertOrUpdate(1L, 10000L);
