@@ -25,12 +25,16 @@ public class PointService {
   }
 
   public UserPoint charge(long id, long amount) {
+    validate(amount);
     UserPoint userPoint = userPointTable.insertOrUpdate(id, amount);
-    if(userPoint.point() <= 0) {
-      throw new IllegalArgumentException("0이하로 포인트를 충전할 수 없습니다.");
-    }
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
+  }
+
+  private static void validate(long amount) {
+    if (amount <= 0) {
+      throw new IllegalArgumentException("0이하로 포인트를 충전할 수 없습니다.");
+    }
   }
 
   public UserPoint use(long id, long amount) {
