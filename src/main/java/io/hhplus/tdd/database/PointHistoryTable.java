@@ -14,25 +14,25 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class PointHistoryTable {
-    private final List<PointHistory> table = new ArrayList<>();
-    private long cursor = 1;
+  private final List<PointHistory> table = new ArrayList<>();
+  private long cursor = 1;
 
-    public PointHistory insert(long userId, long amount, TransactionType type, long updateMillis) {
-        throttle(300L);
-        PointHistory pointHistory = new PointHistory(cursor++, userId, amount, type, updateMillis);
-        table.add(pointHistory);
-        return pointHistory;
+  public PointHistory insert(long userId, long amount, TransactionType type, long updateMillis) {
+    throttle(300L);
+    PointHistory pointHistory = new PointHistory(cursor++, userId, amount, type, updateMillis);
+    table.add(pointHistory);
+    return pointHistory;
+  }
+
+  public List<PointHistory> selectAllByUserId(long userId) {
+    return table.stream().filter(pointHistory -> pointHistory.userId() == userId).toList();
+  }
+
+  private void throttle(long millis) {
+    try {
+      TimeUnit.MILLISECONDS.sleep((long) (Math.random() * millis));
+    } catch (InterruptedException ignored) {
+
     }
-
-    public List<PointHistory> selectAllByUserId(long userId) {
-        return table.stream().filter(pointHistory -> pointHistory.userId() == userId).toList();
-    }
-
-    private void throttle(long millis) {
-        try {
-            TimeUnit.MILLISECONDS.sleep((long) (Math.random() * millis));
-        } catch (InterruptedException ignored) {
-
-        }
-    }
+  }
 }
