@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +42,14 @@ class PointServiceTest {
     //then
     assertThat(point.id()).isEqualTo(1L);
     assertThat(point.point()).isEqualTo(1000L);
+  }
+
+  @Test
+  public void _포인트_충전을_안했을_경우_히스토리_조회() {
+    //given
+    List<PointHistory> history = pointService.history(1L);
+    //then
+    assertThat(history).isEmpty();
   }
 
 }
