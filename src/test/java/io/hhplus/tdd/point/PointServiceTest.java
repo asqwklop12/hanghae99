@@ -94,5 +94,14 @@ class PointServiceTest {
     assertThatThrownBy(() -> pointService.charge(1L, 2000L)).isInstanceOf(IllegalArgumentException.class);
   }
 
+  @Test
+  public void _포인트는_최대_10000포인트까지충전이_가능합니다() {
+    //given
+    userPoint.insertOrUpdate(1L, 10000L);
+    //when & then
+    assertThatThrownBy(() -> pointService.charge(1L, 1L)).isInstanceOf(IllegalArgumentException.class);
+  }
+
+
 
 }
