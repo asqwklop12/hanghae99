@@ -33,10 +33,8 @@ public class PointService {
       userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point() + amount);
       userPoint.isMaxAvailableCharge();
       pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
-
     } catch (Exception e) {
       userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point());
-
     }
     return userPoint;
   }
