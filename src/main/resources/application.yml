@@ -3,5 +3,5 @@ spring:
 
 point:
   available_charge: 10000
-  max: 2000
-  min: 0
+  max_single_charge_amount: 2000
+  min_single_charge_amount: 0

@@ -9,12 +9,13 @@ public class PointPropertiesStub extends PointProperties {
   }
 
   @Override
-  public long getMax() {
+  public long getMaxSingleChargeAmount() {
     return 2000L;
   }
 
+
   @Override
-  public long getMin() {
+  public long getMinSingleChargeAmount() {
     return 0L;
   }
 }

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("point")
 @Getter
 @Setter
-public class PointProperties {
+public abstract class PointProperties {
   private long availableCharge;
-  private long max;
-  private long min;
+  private long maxSingleChargeAmount;
+  private long minSingleChargeAmount;
 }

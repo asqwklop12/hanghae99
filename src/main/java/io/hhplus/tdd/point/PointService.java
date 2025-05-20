@@ -43,7 +43,7 @@ public class PointService {
   }
 
   private void isNotCharge(long amount) {
-    if (amount <= properties.getMin() || amount >= properties.getMax()) {
+    if (amount <= properties.getMinSingleChargeAmount() || amount >= properties.getMaxSingleChargeAmount()) {
       throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
 
@@ -58,7 +58,7 @@ public class PointService {
   }
 
   private void isNotUse(long amount) {
-    if (amount <= properties.getMin()) {
+    if (amount <= properties.getMinSingleChargeAmount()) {
       throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
   }
