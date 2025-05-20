@@ -114,16 +114,6 @@ class PointServiceTest {
   }
 
   @Test
-  public void _포인트는_최대_10000포인트까지충전시_롤백() {
-    //given
-    userPoint.insertOrUpdate(1L, 9500L);
-    //when
-    pointService.charge(1L, 1000L);
-    UserPoint point = pointService.point(1L);
-    assertThat(point.point()).isEqualTo(9500L);
-  }
-
-  @Test
   void _0포인트_이하를_사용할_수_없다() {
     //given
     pointService.charge(1L, 1000L);

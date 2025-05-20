@@ -10,14 +10,14 @@ public record UserPoint(
     return new UserPoint(id, 0, System.currentTimeMillis());
   }
 
-  public void isMaxAvailableCharge() {
-    if (point > 10000) {
+  public void isMaxAvailableCharge(long amount) {
+    if (point + amount > 10000) {
       throw new IllegalArgumentException("포인트는 최대 10000포인트까지 충전이 가능합니다.");
     }
   }
 
   public void checkPointUseMore(long amount) {
-    if(point < amount) {
+    if (point < amount) {
       throw new IllegalArgumentException("현재 충전된 금액보다 더 큰 포인트를 사용할 수 없다.");
     }
   }
