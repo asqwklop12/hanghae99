@@ -2,20 +2,20 @@ package io.hhplus.tdd.point;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
-import io.hhplus.tdd.point.properties.PointPropertiesComponent;
+import io.hhplus.tdd.point.properties.PointProperties;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PointService {
-  private final PointPropertiesComponent properties;
+  private final PointProperties properties;
 
   private final UserPointTable userPointTable;
   private final PointHistoryTable pointHistoryTable;
 
   public PointService(UserPointTable userPointTable,
                       PointHistoryTable pointHistoryTable,
-                      PointPropertiesComponent properties) {
+                      PointProperties properties) {
     this.userPointTable = userPointTable;
     this.pointHistoryTable = pointHistoryTable;
     this.properties = properties;

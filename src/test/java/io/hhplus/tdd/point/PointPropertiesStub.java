@@ -1,8 +1,8 @@
 package io.hhplus.tdd.point;
 
-import io.hhplus.tdd.point.properties.PointPropertiesComponent;
+import io.hhplus.tdd.point.properties.PointProperties;
 
-public class PointPropertiesStub extends PointPropertiesComponent {
+public class PointPropertiesStub extends PointProperties {
   @Override
   public long getAvailableCharge() {
     return 10000L;

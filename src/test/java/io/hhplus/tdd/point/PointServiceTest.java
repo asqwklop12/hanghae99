@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
-import io.hhplus.tdd.point.properties.PointPropertiesComponent;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,7 @@ class PointServiceTest {
     //given
     userPoint = spy(UserPointTable.class);
     pointHistory = spy(PointHistoryTable.class);
-    PointPropertiesStub properties = new PointPropertiesStub();
-    pointService = new PointService(userPoint, pointHistory, properties);
+    pointService = new PointService(userPoint, pointHistory, new PointPropertiesStub());
   }
 
   @Test
