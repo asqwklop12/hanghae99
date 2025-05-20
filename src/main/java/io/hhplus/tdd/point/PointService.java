@@ -25,16 +25,16 @@ public class PointService {
   }
 
   public UserPoint charge(long id, long amount) {
-    validate(amount);
+    isNotCharge(amount);
     //기존 포인트 가져온다.
     UserPoint currentUserPoint = userPointTable.selectById(id);
     UserPoint userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point() + amount);
-    userPoint.validate();
+    userPoint.isMaxAvailableCharge();
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
   }
 
-  private static void validate(long amount) {
+  private static void isNotCharge(long amount) {
     if (amount <= 0 || amount >= 2000) {
       throw new IllegalArgumentException("포인트는 0보다 크거나 2000미만으로 충전할 수 있습니다.");
     }
@@ -42,14 +42,14 @@ public class PointService {
   }
 
   public UserPoint use(long id, long amount) {
-    useValidate(amount);
+    isNotUse(amount);
     UserPoint userPoint = userPointTable.selectById(id);
-    userPoint.useValidate(amount);
+    userPoint.checkPointUseMore(amount);
     pointHistoryTable.insert(id, amount, TransactionType.USE, System.currentTimeMillis());
     return userPointTable.insertOrUpdate(id, userPoint.point() - amount);
   }
 
-  private static void useValidate(long amount) {
+  private static void isNotUse(long amount) {
     if (amount <= 0) {
       throw new IllegalArgumentException("0포인트 이하로 사용이 불가합니다.");
     }
