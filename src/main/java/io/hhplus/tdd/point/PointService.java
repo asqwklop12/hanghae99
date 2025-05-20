@@ -9,6 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PointService {
 
+  @Value("${point.available_charge}")
+  private static long MAX_AVAILABLE_CHARGE;
+  @Value("${point.max}")
+  private static long MAX_SINGLE_CHARGE_AMOUNT;
+  @Value("${point.min}")
+  private static long MIN_SINGLE_CHARGE_AMOUNT;
+
+
   private final UserPointTable userPointTable;
   private final PointHistoryTable pointHistoryTable;
 
@@ -32,14 +40,14 @@ public class PointService {
     UserPoint currentUserPoint = userPointTable.selectById(id);
     long increaseAmount = currentUserPoint.point() + amount;
 
-    currentUserPoint.isMaxAvailableCharge(amount, 10000L);
+    currentUserPoint.isMaxAvailableCharge(amount, MAX_AVAILABLE_CHARGE);
     UserPoint userPoint = userPointTable.insertOrUpdate(id, increaseAmount);
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
   }
 
   private static void isNotCharge(long amount) {
-    if (amount <= 0 || amount >= 2000) {
+    if (amount <= MIN_SINGLE_CHARGE_AMOUNT || amount >= MAX_SINGLE_CHARGE_AMOUNT) {
       throw new IllegalArgumentException("포인트는 0보다 크거나 2000미만으로 충전할 수 있습니다.");
     }
 
@@ -54,7 +62,7 @@ public class PointService {
   }
 
   private static void isNotUse(long amount) {
-    if (amount <= 0) {
+    if (amount <= MIN_SINGLE_CHARGE_AMOUNT) {
       throw new IllegalArgumentException("0포인트 이하로 사용이 불가합니다.");
     }
   }

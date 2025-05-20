@@ -1,2 +1,7 @@
 spring:
   application.name: hhplus-tdd
+
+point:
+  available_charge: 10000
+  max: 2000
+  min: 0
