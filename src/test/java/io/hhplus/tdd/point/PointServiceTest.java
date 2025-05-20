@@ -17,14 +17,13 @@ class PointServiceTest {
   private UserPointTable userPoint;
   private PointHistoryTable pointHistory;
   private PointService pointService;
-  private PointPropertiesComponent properties;
 
   @BeforeEach
   void init() {
     //given
     userPoint = spy(UserPointTable.class);
     pointHistory = spy(PointHistoryTable.class);
-    properties = new PointPropertiesStub();
+    PointPropertiesStub properties = new PointPropertiesStub();
     pointService = new PointService(userPoint, pointHistory, properties);
   }
 
