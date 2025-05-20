@@ -12,7 +12,7 @@ public record UserPoint(
 
   public void isMaxAvailableCharge(long amount, long maxAvailableCharge) {
     if (point + amount > maxAvailableCharge) {
-      throw new IllegalArgumentException("포인트는 최대 10000포인트까지 충전이 가능합니다.");
+      throw new IllegalArgumentException("최대로 지정할수 있는 포인트를 넘어섰습니다. 관리자에게 문의부탁드립니다.");
     }
   }
 
