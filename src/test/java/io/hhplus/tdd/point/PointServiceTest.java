@@ -84,13 +84,13 @@ class PointServiceTest {
   }
 
   @Test
-  public void _포인트는_0이하로_충전할수없다() {
+  public void _포인트는_N이하로_충전할수없다() {
     //when&then
     assertThatThrownBy(() -> pointService.charge(1L, -20L)).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  public void _한번에_2000포인트이상_충전할수없다() {
+  public void _한번에_N포인트이상_충전할수없다() {
     //when&then
     assertThatThrownBy(() -> pointService.charge(1L, 2000L)).isInstanceOf(IllegalArgumentException.class);
   }
@@ -107,7 +107,7 @@ class PointServiceTest {
   }
 
   @Test
-  public void _포인트는_최대_10000포인트까지충전이_가능합니다() {
+  public void _포인트는_최대_N포인트까지충전이_가능합니다() {
     //given
     userPoint.insertOrUpdate(1L, 10000L);
     //when&then
@@ -115,7 +115,7 @@ class PointServiceTest {
   }
 
   @Test
-  void _0포인트_이하를_사용할_수_없다() {
+  void _N포인트_이하를_사용할_수_없다() {
     //given
     pointService.charge(1L, 1000L);
     //when&then
