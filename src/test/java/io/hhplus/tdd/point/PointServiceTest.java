@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
+import io.hhplus.tdd.point.properties.PointPropertiesComponent;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,16 +17,15 @@ class PointServiceTest {
   private UserPointTable userPoint;
   private PointHistoryTable pointHistory;
   private PointService pointService;
+  private PointPropertiesComponent properties;
 
   @BeforeEach
   void init() {
     //given
     userPoint = spy(UserPointTable.class);
     pointHistory = spy(PointHistoryTable.class);
-    pointService = new PointService(userPoint, pointHistory);
-    pointService.setMaxAvailableCharge(10000L);
-    pointService.setMaxSingleChargeAmount(2000L);
-    pointService.setMinSingleChargeAmount(0L);
+    properties = new PointPropertiesStub();
+    pointService = new PointService(userPoint, pointHistory, properties);
   }
 
   @Test
