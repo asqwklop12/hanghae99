@@ -44,6 +44,7 @@ public class PointService {
   public UserPoint use(long id, long amount) {
     useValidate(amount);
     UserPoint userPoint = userPointTable.selectById(id);
+    userPoint.useValidate(amount);
     pointHistoryTable.insert(id, amount, TransactionType.USE, System.currentTimeMillis());
     return userPointTable.insertOrUpdate(id, userPoint.point() - amount);
   }
