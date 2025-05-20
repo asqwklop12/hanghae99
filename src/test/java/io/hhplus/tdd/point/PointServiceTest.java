@@ -23,6 +23,9 @@ class PointServiceTest {
     userPoint = spy(UserPointTable.class);
     pointHistory = spy(PointHistoryTable.class);
     pointService = new PointService(userPoint, pointHistory);
+    pointService.setMaxAvailableCharge(10000L);
+    pointService.setMaxSingleChargeAmount(2000L);
+    pointService.setMinSingleChargeAmount(0L);
   }
 
   @Test

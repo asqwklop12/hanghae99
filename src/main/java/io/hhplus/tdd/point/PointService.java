@@ -16,7 +16,6 @@ public class PointService {
   @Value("${point.min}")
   private static long MIN_SINGLE_CHARGE_AMOUNT;
 
-
   private final UserPointTable userPointTable;
   private final PointHistoryTable pointHistoryTable;
 
@@ -48,7 +47,7 @@ public class PointService {
 
   private static void isNotCharge(long amount) {
     if (amount <= MIN_SINGLE_CHARGE_AMOUNT || amount >= MAX_SINGLE_CHARGE_AMOUNT) {
-      throw new IllegalArgumentException("포인트는 0보다 크거나 2000미만으로 충전할 수 있습니다.");
+      throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
 
   }
@@ -63,7 +62,19 @@ public class PointService {
 
   private static void isNotUse(long amount) {
     if (amount <= MIN_SINGLE_CHARGE_AMOUNT) {
-      throw new IllegalArgumentException("0포인트 이하로 사용이 불가합니다.");
+      throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
+  }
+
+  public static void setMaxAvailableCharge(long maxAvailableCharge) {
+    MAX_AVAILABLE_CHARGE = maxAvailableCharge;
+  }
+
+  public static void setMaxSingleChargeAmount(long maxSingleChargeAmount) {
+    MAX_SINGLE_CHARGE_AMOUNT = maxSingleChargeAmount;
+  }
+
+  public static void setMinSingleChargeAmount(long minSingleChargeAmount) {
+    MIN_SINGLE_CHARGE_AMOUNT = minSingleChargeAmount;
   }
 }
