@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PointService {
-  private static PointPropertiesComponent properties;
+  private final PointPropertiesComponent properties;
 
   private final UserPointTable userPointTable;
   private final PointHistoryTable pointHistoryTable;
@@ -42,7 +42,7 @@ public class PointService {
     return userPoint;
   }
 
-  private static void isNotCharge(long amount) {
+  private void isNotCharge(long amount) {
     if (amount <= properties.getMin() || amount >= properties.getMax()) {
       throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
@@ -57,7 +57,7 @@ public class PointService {
     return userPointTable.insertOrUpdate(id, userPoint.point() - amount);
   }
 
-  private static void isNotUse(long amount) {
+  private void isNotUse(long amount) {
     if (amount <= properties.getMin()) {
       throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
