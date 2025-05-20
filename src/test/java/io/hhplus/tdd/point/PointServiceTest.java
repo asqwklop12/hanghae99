@@ -135,4 +135,11 @@ class PointServiceTest {
     assertThat(point.point()).isEqualTo(800L);
   }
 
+  @Test
+  void _현재_충전된_금액보다_더_큰_포인트를_사용할_수_없다() {
+    //given
+    pointService.charge(1L, 200L);
+    //when&then
+    assertThatThrownBy(() -> pointService.use(1L, 500L)).isInstanceOf(IllegalArgumentException.class);
+  }
 }
