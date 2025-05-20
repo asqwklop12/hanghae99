@@ -42,11 +42,15 @@ public class PointService {
   }
 
   public UserPoint use(long id, long amount) {
-    if(amount <= 0){
-      throw new IllegalArgumentException("0포인트 이하로 사용이 불가합니다.");
-    }
+    useValidate(amount);
     UserPoint userPoint = userPointTable.selectById(id);
     pointHistoryTable.insert(id, amount, TransactionType.USE, System.currentTimeMillis());
     return userPointTable.insertOrUpdate(id, userPoint.point() - amount);
+  }
+
+  private static void useValidate(long amount) {
+    if (amount <= 0) {
+      throw new IllegalArgumentException("0포인트 이하로 사용이 불가합니다.");
+    }
   }
 }
