@@ -25,12 +25,19 @@ public class PointService {
   }
 
   public UserPoint charge(long id, long amount) {
-    isNotCharge(amount);
-    //기존 포인트 가져온다.
     UserPoint currentUserPoint = userPointTable.selectById(id);
-    UserPoint userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point() + amount);
-    userPoint.isMaxAvailableCharge();
-    pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
+    UserPoint userPoint;
+    try {
+      isNotCharge(amount);
+      //기존 포인트 가져온다.
+      userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point() + amount);
+      userPoint.isMaxAvailableCharge();
+      pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
+
+    } catch (Exception e) {
+      userPoint = userPointTable.insertOrUpdate(id, currentUserPoint.point());
+
+    }
     return userPoint;
   }
 
