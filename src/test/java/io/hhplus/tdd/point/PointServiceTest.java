@@ -113,6 +113,11 @@ class PointServiceTest {
     assertThatThrownBy(() -> pointService.charge(1L, 1L)).isInstanceOf(IllegalArgumentException.class);
   }
 
-
-
+  @Test
+  void _0포인트_이하를_사용할_수_없다() {
+    //given
+    pointService.charge(1L, 1000L);
+    //when&then
+    assertThatThrownBy(() -> pointService.use(1L, -5L)).isInstanceOf(IllegalArgumentException.class);
+  }
 }
