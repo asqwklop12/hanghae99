@@ -3,6 +3,7 @@ package io.hhplus.tdd.point;
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,7 +32,7 @@ public class PointService {
     UserPoint currentUserPoint = userPointTable.selectById(id);
     long increaseAmount = currentUserPoint.point() + amount;
 
-    currentUserPoint.isMaxAvailableCharge(amount);
+    currentUserPoint.isMaxAvailableCharge(amount, 10000L);
     UserPoint userPoint = userPointTable.insertOrUpdate(id, increaseAmount);
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
