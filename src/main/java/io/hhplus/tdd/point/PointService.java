@@ -2,26 +2,23 @@ package io.hhplus.tdd.point;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
+import io.hhplus.tdd.point.properties.PointPropertiesComponent;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PointService {
-
-  @Value("${point.available_charge}")
-  private static long MAX_AVAILABLE_CHARGE;
-  @Value("${point.max}")
-  private static long MAX_SINGLE_CHARGE_AMOUNT;
-  @Value("${point.min}")
-  private static long MIN_SINGLE_CHARGE_AMOUNT;
+  private static PointPropertiesComponent properties;
 
   private final UserPointTable userPointTable;
   private final PointHistoryTable pointHistoryTable;
 
-  public PointService(UserPointTable userPointTable, PointHistoryTable pointHistoryTable) {
+  public PointService(UserPointTable userPointTable,
+                      PointHistoryTable pointHistoryTable,
+                      PointPropertiesComponent properties) {
     this.userPointTable = userPointTable;
     this.pointHistoryTable = pointHistoryTable;
+    this.properties = properties;
   }
 
   public UserPoint point(long id) {
@@ -39,14 +36,14 @@ public class PointService {
     UserPoint currentUserPoint = userPointTable.selectById(id);
     long increaseAmount = currentUserPoint.point() + amount;
 
-    currentUserPoint.isMaxAvailableCharge(amount, MAX_AVAILABLE_CHARGE);
+    currentUserPoint.isMaxAvailableCharge(amount, properties.getAvailableCharge());
     UserPoint userPoint = userPointTable.insertOrUpdate(id, increaseAmount);
     pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
     return userPoint;
   }
 
   private static void isNotCharge(long amount) {
-    if (amount <= MIN_SINGLE_CHARGE_AMOUNT || amount >= MAX_SINGLE_CHARGE_AMOUNT) {
+    if (amount <= properties.getMin() || amount >= properties.getMax()) {
       throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
 
@@ -61,20 +58,9 @@ public class PointService {
   }
 
   private static void isNotUse(long amount) {
-    if (amount <= MIN_SINGLE_CHARGE_AMOUNT) {
+    if (amount <= properties.getMin()) {
       throw new IllegalArgumentException("1회당 충전할 수 있는 포인트의 범위가 다릅니다. 다시 확인해주세요.");
     }
   }
 
-  public static void setMaxAvailableCharge(long maxAvailableCharge) {
-    MAX_AVAILABLE_CHARGE = maxAvailableCharge;
-  }
-
-  public static void setMaxSingleChargeAmount(long maxSingleChargeAmount) {
-    MAX_SINGLE_CHARGE_AMOUNT = maxSingleChargeAmount;
-  }
-
-  public static void setMinSingleChargeAmount(long minSingleChargeAmount) {
-    MIN_SINGLE_CHARGE_AMOUNT = minSingleChargeAmount;
-  }
 }
