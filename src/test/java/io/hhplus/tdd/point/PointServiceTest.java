@@ -120,4 +120,19 @@ class PointServiceTest {
     //when&then
     assertThatThrownBy(() -> pointService.use(1L, -5L)).isInstanceOf(IllegalArgumentException.class);
   }
+
+  @Test
+  void _연속_사용_테스트() {
+    //given
+    pointService.charge(1L, 1000L);
+    pointService.use(1L, 100L);
+    pointService.use(1L, 100L);
+    //when
+
+    UserPoint point = pointService.point(1L);
+
+    // then
+    assertThat(point.point()).isEqualTo(800L);
+  }
+
 }
