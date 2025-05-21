@@ -6,7 +6,6 @@ import io.hhplus.tdd.point.properties.PointProperties;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import lombok.Synchronized;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -56,13 +55,15 @@ public class PointService {
 
   }
 
-  @Synchronized
   public UserPoint use(long id, long amount) {
     isNotUse(amount);
+    lock.lock();
     UserPoint userPoint = userPointTable.selectById(id);
     userPoint.checkPointUseMore(amount);
+    UserPoint usePoint = userPointTable.insertOrUpdate(id, userPoint.point() - amount);
     pointHistoryTable.insert(id, amount, TransactionType.USE, System.currentTimeMillis());
-    return userPointTable.insertOrUpdate(id, userPoint.point() - amount);
+    lock.unlock();
+    return usePoint;
   }
 
   private void isNotUse(long amount) {
