@@ -3,6 +3,8 @@ package io.hhplus.tdd.point;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.hhplus.tdd.database.PointHistoryTable;
@@ -43,8 +45,7 @@ class PointServiceTest {
     //when
     UserPoint point = pointService.charge(1L, 1000L);
     //then
-    assertThat(point.id()).isEqualTo(1L);
-    assertThat(point.point()).isEqualTo(1000L);
+    verify(pointHistory, times(1)).insert(1L, 1000L, TransactionType.CHARGE, point.updateMillis());  // 호출 횟수(행동) 검증
   }
 
   @Test
