@@ -56,6 +56,7 @@ public class PointService {
 
   }
 
+  @Synchronized
   public UserPoint use(long id, long amount) {
     isNotUse(amount);
     UserPoint userPoint = userPointTable.selectById(id);
