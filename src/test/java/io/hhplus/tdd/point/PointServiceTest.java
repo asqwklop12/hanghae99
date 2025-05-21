@@ -76,6 +76,7 @@ class PointServiceTest {
     //when
     UserPoint point = pointService.use(1L, 200L);
     //then
+    verify(pointHistory, times(1)).insert(eq(1L), eq(200L), eq(TransactionType.USE), anyLong());  // 호출 횟수(행동) 검증
     assertThat(point.point()).isEqualTo(800L);
   }
 
