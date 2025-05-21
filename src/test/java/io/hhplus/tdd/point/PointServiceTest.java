@@ -171,4 +171,30 @@ class PointServiceTest {
 
     assertThat(point.point()).isEqualTo(threadCount * amount); // 실패 가능성 높음
   }
+
+  @Test
+  void 동시_사용_테스트() throws InterruptedException {
+    //given
+    int threadCount = 10;
+    long userId = 1L;
+    long amount = 100L;
+    pointService.charge(userId, 1000L);
+
+    //when
+    ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+    CountDownLatch latch = new CountDownLatch(threadCount);
+
+    for (int i = 0; i < threadCount; i++) {
+      executor.execute(() -> {
+        pointService.use(userId, amount);
+        latch.countDown();
+      });
+    }
+
+    latch.await();
+    UserPoint point = pointService.point(userId);
+
+    //then
+    assertThat(point.point()).isEqualTo(0L); // 실패 가능성 높음
+  }
 }
