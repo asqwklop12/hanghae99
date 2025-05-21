@@ -4,6 +4,7 @@ import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.point.properties.PointProperties;
 import java.util.List;
+import lombok.Synchronized;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,7 @@ public class PointService {
     return pointHistoryTable.selectAllByUserId(id);
   }
 
+  @Synchronized
   public UserPoint charge(long id, long amount) {
     //기존 포인트 가져온다.
     isNotCharge(amount);
