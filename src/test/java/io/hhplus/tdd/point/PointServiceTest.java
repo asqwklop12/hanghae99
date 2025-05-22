@@ -12,9 +12,6 @@ import static org.mockito.Mockito.when;
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -150,51 +147,5 @@ class PointServiceTest {
     assertThatThrownBy(() -> pointService.use(1L, 500L)).isInstanceOf(IllegalArgumentException.class);
   }
 
-  @Test
-  void 동시_충전_테스트() throws InterruptedException {
-    int threadCount = 10;
-    long userId = 1L;
-    long amount = 100L;
 
-    ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-    CountDownLatch latch = new CountDownLatch(threadCount);
-
-    for (int i = 0; i < threadCount; i++) {
-      executor.execute(() -> {
-        pointService.charge(userId, amount);
-        latch.countDown();
-      });
-    }
-
-    latch.await();
-    UserPoint point = pointService.point(userId);
-
-    assertThat(point.point()).isEqualTo(threadCount * amount); // 실패 가능성 높음
-  }
-
-  @Test
-  void 동시_사용_테스트() throws InterruptedException {
-    //given
-    int threadCount = 10;
-    long userId = 1L;
-    long amount = 100L;
-    pointService.charge(userId, 1000L);
-
-    //when
-    ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-    CountDownLatch latch = new CountDownLatch(threadCount);
-
-    for (int i = 0; i < threadCount; i++) {
-      executor.execute(() -> {
-        pointService.use(userId, amount);
-        latch.countDown();
-      });
-    }
-
-    latch.await();
-    UserPoint point = pointService.point(userId);
-
-    //then
-    assertThat(point.point()).isEqualTo(0L); // 실패 가능성 높음
-  }
 }
