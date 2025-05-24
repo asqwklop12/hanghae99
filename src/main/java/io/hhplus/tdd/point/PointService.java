@@ -2,10 +2,9 @@ package io.hhplus.tdd.point;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
+import io.hhplus.tdd.point.manager.LockManager;
 import io.hhplus.tdd.point.properties.PointProperties;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +15,16 @@ public class PointService {
   private final UserPointTable userPointTable;
   private final PointHistoryTable pointHistoryTable;
 
-  private Map<String, ReentrantLock> locks = new ConcurrentHashMap<>();
+  private final LockManager lockManager;
 
   public PointService(UserPointTable userPointTable,
                       PointHistoryTable pointHistoryTable,
-                      PointProperties properties) {
+                      PointProperties properties,
+                      LockManager lockManager) {
     this.userPointTable = userPointTable;
     this.pointHistoryTable = pointHistoryTable;
     this.properties = properties;
+    this.lockManager = lockManager;
   }
 
   public UserPoint point(long id) {
@@ -37,21 +38,16 @@ public class PointService {
   public UserPoint charge(long id, long amount) {
     //기존 포인트 가져온다.
     checkChargePoint(amount);
-    UserPoint userPoint;
-    locks.putIfAbsent("charge-" + id, new ReentrantLock());
-    ReentrantLock lock = locks.get("charge-" + id);
+    String key = "charge-" + id;
 
-    lock.lock();
-    try {
+    return lockManager.withLock(key, () -> {
       UserPoint currentUserPoint = userPointTable.selectById(id);
       long increaseAmount = currentUserPoint.point() + amount;
       currentUserPoint.checkMaxAvailableCharge(amount, properties.getAvailableCharge());
-      userPoint = userPointTable.insertOrUpdate(id, increaseAmount);
+      UserPoint updated = userPointTable.insertOrUpdate(id, increaseAmount);
       pointHistoryTable.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
-    } finally {
-      lock.unlock();
-    }
-    return userPoint;
+      return updated;
+    });
   }
 
   private void checkChargePoint(long amount) {
@@ -63,20 +59,14 @@ public class PointService {
 
   public UserPoint use(long id, long amount) {
     checkNotUse(amount);
-    UserPoint usePoint;
-    locks.putIfAbsent("use-" + id, new ReentrantLock());
-    ReentrantLock lock = locks.get("use-" + id);
-    lock.lock();
-    try {
+    String key = "use-" + id;
+    return lockManager.withLock(key, () -> {
       UserPoint userPoint = userPointTable.selectById(id);
       userPoint.checkPointUseMore(amount);
-      usePoint = userPointTable.insertOrUpdate(id, userPoint.point() - amount);
+      UserPoint usePoint = userPointTable.insertOrUpdate(id, userPoint.point() - amount);
       pointHistoryTable.insert(id, amount, TransactionType.USE, System.currentTimeMillis());
-    } finally {
-      lock.unlock();
-    }
-
-    return usePoint;
+      return usePoint;
+    });
   }
 
   private void checkNotUse(long amount) {

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
+import io.hhplus.tdd.point.manager.LockManager;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,8 @@ class PointServiceTest {
     //given
     userPoint = spy(UserPointTable.class);
     pointHistory = spy(PointHistoryTable.class);
-    pointService = new PointService(userPoint, pointHistory, new PointPropertiesStub());
+    LockManager lockManager = spy(new LockManager());
+    pointService = new PointService(userPoint, pointHistory, new PointPropertiesStub(), lockManager);
   }
 
   @Test
