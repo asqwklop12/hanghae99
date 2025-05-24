@@ -10,7 +10,7 @@ public record UserPoint(
     return new UserPoint(id, 0, System.currentTimeMillis());
   }
 
-  public void isMaxAvailableCharge(long amount, long maxAvailableCharge) {
+  public void checkMaxAvailableCharge(long amount, long maxAvailableCharge) {
     if (point + amount > maxAvailableCharge) {
       throw new IllegalArgumentException("최대로 지정할수 있는 포인트를 넘어섰습니다. 관리자에게 문의부탁드립니다.");
     }
