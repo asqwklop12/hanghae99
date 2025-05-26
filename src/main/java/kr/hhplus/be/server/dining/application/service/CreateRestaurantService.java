@@ -1,15 +1,15 @@
 package kr.hhplus.be.server.dining.application.service;
 
 import kr.hhplus.be.server.dining.application.port.in.usecase.CreateRestaurantUseCase;
-import kr.hhplus.be.server.dining.application.port.out.repository.CreateRestaurantPort;
+import kr.hhplus.be.server.dining.application.port.out.repository.CreateRestaurantRepository;
 import kr.hhplus.be.server.dining.domain.model.Restaurant;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateRestaurantService implements CreateRestaurantUseCase {
-  private final CreateRestaurantPort createRestaurantPort;
+  private final CreateRestaurantRepository createRestaurantPort;
 
-  public CreateRestaurantService(CreateRestaurantPort createRestaurantPort) {
+  public CreateRestaurantService(CreateRestaurantRepository createRestaurantPort) {
     this.createRestaurantPort = createRestaurantPort;
   }
 

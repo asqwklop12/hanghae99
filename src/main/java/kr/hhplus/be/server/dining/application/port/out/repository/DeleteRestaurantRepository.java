@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.dining.application.port.out.repository;
 
-public interface DeleteRestaurantPort {
+public interface DeleteRestaurantRepository {
 
   void execute();
 }
