@@ -11,7 +11,7 @@
  6. 키워드 조회 
 
 ### 시나리오 흐름도
-[시퀀스 다이어그램](https://www.figma.com/design/8cWOhqAqT7sLsNni0iYyff/%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4-%ED%9D%90%EB%A6%84%EB%8F%84?node-id=0-1&p=f&t=ks7LmwyGWWGptwRu-0)
+[시퀀스 다이어그램](https://drive.google.com/file/d/1p2jhZ9u84x0MAny859JSLqUSoI3Ts0S6/view?usp=sharing)
 
 ###  ERD
 [ERD](https://www.erdcloud.com/d/4wzTtEd3rxwG8xP96)
