@@ -21,15 +21,3 @@
 
 ###  인프라 설계도
 [infra](https://www.figma.com/design/AbaECF7kEX6ehZ0G1fxgv8/%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%84%A4%EA%B3%84%EB%8F%84--Community-?node-id=1016-87&t=84homudeMDSpxlpp-1)
-
-## Getting Started
-
-### Prerequisites
-
-#### Running Docker Containers
-
-`local` profile 로 실행하기 위하여 인프라가 설정되어 있는 Docker 컨테이너를 실행해주셔야 합니다.
-
-```bash
-docker-compose up -d
-```
