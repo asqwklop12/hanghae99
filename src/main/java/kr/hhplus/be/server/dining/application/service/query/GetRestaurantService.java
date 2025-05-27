@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.dining.application.service.query;
 
-import kr.hhplus.be.server.dining.application.port.in.usecase.query.GetRestaurantUseCase;
+import kr.hhplus.be.server.dining.application.port.in.usecase.resturant.query.GetRestaurantUseCase;
 import kr.hhplus.be.server.dining.application.port.out.repository.query.GetRestaurantRepository;
 import org.springframework.stereotype.Service;
 

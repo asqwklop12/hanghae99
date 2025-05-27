@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.dining.application.service.command;
 
-import kr.hhplus.be.server.dining.application.port.in.usecase.command.DeleteRestaurantUseCase;
+import kr.hhplus.be.server.dining.application.port.in.usecase.resturant.command.DeleteRestaurantUseCase;
 import kr.hhplus.be.server.dining.application.port.out.repository.command.DeleteRestaurantRepository;
 import org.springframework.stereotype.Service;
 

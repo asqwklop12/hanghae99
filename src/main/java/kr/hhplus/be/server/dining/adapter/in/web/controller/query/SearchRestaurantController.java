@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.dining.adapter.in.web.controller.query;
 
-import kr.hhplus.be.server.dining.application.port.in.usecase.query.SearchRestaurantUseCase;
+import kr.hhplus.be.server.dining.application.port.in.usecase.resturant.query.SearchRestaurantUseCase;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

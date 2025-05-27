@@ -1,6 +1,6 @@
 package kr.hhplus.be.server.dining.adapter.in.web.controller.command;
 
-import kr.hhplus.be.server.dining.application.port.in.usecase.command.DeleteRestaurantUseCase;
+import kr.hhplus.be.server.dining.application.port.in.usecase.resturant.command.DeleteRestaurantUseCase;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
